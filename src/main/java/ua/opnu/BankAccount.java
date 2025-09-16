@@ -6,8 +6,12 @@ public class BankAccount {
     double transactionFee;
 
     void deposit(double amount) {
-        // TODO: modify method body
-        balance = balance + amount;
+        // Якщо сума менше нуля - вихід
+        if (amount <= 0){
+            return;
+        }
+        // Інакше баланс поповнюється
+        balance += amount;
     }
 
     double getBalance() {
@@ -15,13 +19,30 @@ public class BankAccount {
     }
 
     boolean withdraw(double amount) {
-        // TODO: modify method body
-        balance = balance - amount;
+        if (amount <= 0){
+            return false;
+        }
+        // Рахуємо залишок балансу, якщо сума більша балансу - вихід
+        double amountWithFee = amount + transactionFee;
+       if (amountWithFee > balance){
+           return false;
+       }
+       balance -= amountWithFee;
         return true;
     }
 
     boolean transfer(BankAccount receiver, double amount) {
-        // TODO: modify method body
-        return false;
+        if (amount <= 0){
+            return false;
+        }
+        // Рахуємо суму переказу та баланс відправника, та отримувача
+        double totalTransfer = amount + transactionFee;
+        if (totalTransfer > balance){
+            return false;
+        }
+        this.balance -= totalTransfer;
+        receiver.balance += amount;
+        return true;
     }
+
 }
